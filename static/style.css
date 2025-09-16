@@ -1,0 +1,619 @@
+/* تصميم تطبيق SecureChat */
+
+/* الخطوط والألوان الأساسية */
+:root {
+    --primary-color: #0088cc;
+    --secondary-color: #667eea;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --white: #ffffff;
+    --telegram-blue: #0088cc;
+    --telegram-green: #28a745;
+    --message-sent: #dcf8c6;
+    --message-received: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow: 0 2px 10px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+/* إعادة تعيين الأنماط الافتراضية */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+/* رأس التطبيق */
+.header-container {
+    background: linear-gradient(135deg, var(--telegram-blue) 0%, var(--secondary-color) 100%);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--white);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.project-info {
+    position: relative;
+    z-index: 1;
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 2.8em;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeInDown 1s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.team-info {
+    margin-top: 15px;
+    font-size: 1.1em;
+    opacity: 0.95;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.team-info p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+/* حاويات المصادقة */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 20px;
+}
+
+.login-form, .register-form {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-form::before, .register-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--telegram-blue), var(--secondary-color));
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h2 {
+    color: var(--dark-color);
+    margin-bottom: 10px;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.form-header p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* رأس الدردشة */
+.chat-header {
+    background: linear-gradient(135deg, var(--telegram-blue) 0%, #0066aa 100%);
+    color: var(--white);
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    font-size: 1.6em;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    padding: 8px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-name {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.online-status {
+    font-size: 0.85em;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.app-title {
+    font-size: 1.3em;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* رأس المحادثة */
+.conversation-header {
+    background: linear-gradient(135deg, var(--light-color) 0%, #e9ecef 100%);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+    border-left: 5px solid var(--telegram-blue);
+    box-shadow: var(--shadow);
+    animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.conversation-header h3 {
+    color: var(--dark-color);
+    margin-bottom: 5px;
+    font-size: 1.4em;
+}
+
+.conversation-type {
+    color: #666;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+/* حاوي الرسائل */
+.message-container {
+    margin: 15px 0;
+    animation: messageSlide 0.4s ease-out;
+}
+
+@keyframes messageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-bubble {
+    display: inline-block;
+    padding: 14px 20px;
+    border-radius: 20px;
+    max-width: 75%;
+    word-wrap: break-word;
+    position: relative;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.message-bubble:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.message-bubble.sent {
+    background: linear-gradient(135deg, var(--message-sent) 0%, #c8e6c9 100%);
+    border: 1px solid #a5d6a7;
+    margin-left: auto;
+    border-bottom-right-radius: 6px;
+}
+
+.message-bubble.received {
+    background: linear-gradient(135deg, var(--message-received) 0%, #f8f9fa 100%);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.message-content {
+    margin-bottom: 8px;
+    line-height: 1.5;
+    font-size: 1em;
+    word-break: break-word;
+}
+
+.message-time {
+    font-size: 0.75em;
+    color: #666;
+    text-align: right;
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+/* شاشة الترحيب */
+.welcome-screen {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.welcome-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.welcome-content h2 {
+    color: var(--telegram-blue);
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.welcome-content > p {
+    font-size: 1.3em;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.feature {
+    background: linear-gradient(135deg, var(--light-color) 0%, #e9ecef 100%);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.feature::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--telegram-blue), var(--secondary-color));
+}
+
+.feature h4 {
+    color: var(--telegram-blue);
+    margin-bottom: 12px;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.feature p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.instruction {
+    font-style: italic;
+    color: #666;
+    margin-top: 40px;
+    font-size: 1.1em;
+    padding: 20px;
+    background: rgba(0, 136, 204, 0.1);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0, 136, 204, 0.2);
+}
+
+/* تحسينات للهواتف */
+@media (max-width: 768px) {
+    .header-container h1 {
+        font-size: 2.2em;
+    }
+    
+    .team-info {
+        font-size: 1em;
+    }
+    
+    .login-form, .register-form {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .chat-header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .message-bubble {
+        max-width: 85%;
+        padding: 12px 16px;
+    }
+    
+    .features {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .welcome-content h2 {
+        font-size: 2em;
+    }
+}
+
+/* تحسينات إضافية للأزرار */
+.stButton > button {
+    background: linear-gradient(135deg, var(--telegram-blue) 0%, #0066aa 100%);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+    background: linear-gradient(135deg, #0066aa 0%, var(--telegram-blue) 100%);
+}
+
+.stButton > button:active {
+    transform: translateY(0);
+}
+
+/* تحسينات لحقول النص */
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea {
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 12px 16px;
+    transition: var(--transition);
+    font-size: 1em;
+}
+
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus {
+    border-color: var(--telegram-blue);
+    box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
+}
+
+/* تحسينات للشريط الجانبي */
+.css-1d391kg {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* تأثيرات التحميل */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 136, 204, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--telegram-blue);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* تحسينات لقوائم الخيارات */
+.stSelectbox > div > div {
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.stSelectbox > div > div:focus-within {
+    border-color: var(--telegram-blue);
+    box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
+}
+
+/* أنماط للإشعارات */
+.success-message {
+    background: linear-gradient(135deg, var(--success-color) 0%, #218838 100%);
+    color: var(--white);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin: 10px 0;
+    animation: slideInRight 0.5s ease-out;
+}
+
+.error-message {
+    background: linear-gradient(135deg, var(--danger-color) 0%, #c82333 100%);
+    color: var(--white);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin: 10px 0;
+    animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* تحسينات لتبويبات */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 10px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: var(--light-color);
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--telegram-blue);
+    color: var(--white);
+    border-color: var(--telegram-blue);
+}
+
+/* تأثيرات عند التمرير */
+.scroll-fade {
+    animation: scrollFade 0.6s ease-out;
+}
+
+@keyframes scrollFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تحسينات إضافية للجداول */
+.stDataFrame {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+/* أنماط مخصصة للرسائل المشفرة */
+.encrypted-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--success-color);
+    border-radius: 50%;
+    margin-left: 5px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+    }
+    
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    }
+    
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
